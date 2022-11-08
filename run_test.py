@@ -5,7 +5,7 @@ import mtcnn
 import cv2
 
 def _readentry():
-    path = 'F:\\Codes\\CRP\\facenet\\testset'
+    path = 'testset'
     images = []
 
     for (_, _, filenames) in walk(path):

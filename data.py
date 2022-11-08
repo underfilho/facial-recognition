@@ -11,7 +11,7 @@ class Data():
         self.detector = detector
 
     def _readentry(self):
-        path = 'F:\\Codes\\CRP\\facenet\\faces'
+        path = 'faces'
         entry = {}
 
         for (dirpath, dirnames, filenames) in walk(path):
