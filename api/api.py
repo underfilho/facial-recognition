@@ -1,6 +1,6 @@
 import argparse
 import os
-from flask import Flask, request, abort, jsonify, send_from_directory, send_file
+from flask import Flask, request, abort, jsonify, send_from_directory
 
 app = Flask(__name__)
 
@@ -12,7 +12,16 @@ if not os.path.exists(DOWNLOAD_DIRECTORY):
 
 @app.route('/')
 def index():
-    return '<h1>POC RECONHECIMENTO FACIAL CRP</h1>'
+    html = """
+            <h3>POC RECONHECIMENTO FACIAL - CRP</h1>
+            <hr/>
+            <ul>
+                <li>list all files to download: <a href="/files">/files</a></li>
+                <li>get especifique file: <a href="javascript:void(0)">/get-file/{file:file-name} (GET or POST)</a></li>
+            </ul>
+            :return:
+            """
+    return html
 
 
 @app.route('/files')
