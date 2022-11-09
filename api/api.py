@@ -6,12 +6,7 @@ from pathlib import Path
 
 app = Flask(__name__)
 
-BASE_DIR = Path(__name__).resolve().parent.parent
-DOWNLOAD_DIRECTORY = BASE_DIR / 'tflite'
-
-if not os.path.exists(DOWNLOAD_DIRECTORY):
-    BASE_DIR = Path(__name__).resolve().parent
-    DOWNLOAD_DIRECTORY = BASE_DIR / 'tflite'
+DOWNLOAD_DIRECTORY = f'{os.getcwd()}/tflite/'
 
 
 @app.route('/')
