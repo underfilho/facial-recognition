@@ -1,10 +1,13 @@
 import argparse
 import os
 from flask import Flask, request, abort, jsonify, send_from_directory
+from pathlib import Path
+
 
 app = Flask(__name__)
 
-DOWNLOAD_DIRECTORY = f'{os.getcwd()}/tflite/'
+BASE_DIR = Path(__name__).resolve().parent.parent
+DOWNLOAD_DIRECTORY = BASE_DIR / 'tflite'
 
 if not os.path.exists(DOWNLOAD_DIRECTORY):
     os.makedirs(DOWNLOAD_DIRECTORY)
@@ -39,6 +42,9 @@ def get_file():
     """Download a file."""
     try:
         file = request.args.get('file')
+        import pdb
+        pdb.set_trace()
+
         return send_from_directory(DOWNLOAD_DIRECTORY, file, as_attachment=True)
     except FileNotFoundError:
         abort(404)
