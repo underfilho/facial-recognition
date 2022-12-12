@@ -14,18 +14,7 @@ def _readentry():
 
     return images
 
-
-def _generate_testset(array):
-    embeddings = []
-    for i in array:
-        img = _preprocess('testset\\{}'.format(i))
-
-        faceid = _get_embedding(img)
-        embeddings.append(faceid)
-
-    return np.asarray(embeddings)
-
-def _preprocess(detector, imgPath):
+def _preprocess(imgPath):
     img = cv2.imread(imgPath, cv2.IMREAD_COLOR)
     faces = detector.detect_faces(img)
     print(imgPath)
@@ -36,7 +25,7 @@ def _preprocess(detector, imgPath):
     
     return newimg
 
-def _generate_embeddings(facenet, detector, array):
+def _generate_embeddings(array):
     embeddings = []
     for i in array:
         img = _preprocess('testset\\{}'.format(i))
@@ -46,7 +35,7 @@ def _generate_embeddings(facenet, detector, array):
 
     return np.asarray(embeddings)
 
-def _get_embedding(facenet, face_pixels):
+def _get_embedding(face_pixels):
     face_pixels = face_pixels.astype('float32')
     face_pixels = (face_pixels - 128) / 128
 
@@ -57,16 +46,17 @@ def _get_embedding(facenet, face_pixels):
 
     return embedding
 
-def run(facenet, detector):
-    faces = load_model('models\\faces.h5')
-    images = _readentry()
-    X = _generate_embeddings(facenet, detector, images)
+facenet = load_model('models\\facenet_keras.h5')
+detector = mtcnn.MTCNN()
+faces = load_model('models\\faces.h5')
+images = _readentry()
+X = _generate_embeddings(images)
 
-    prediction = faces.predict(X)
-    prediction = np.argmax(prediction, axis=1)
+prediction = faces.predict(X)
+prediction = np.argmax(prediction, axis=1)
 
-    f = open('models\\labels.txt', 'r')
-    lines = f.readlines()
-    prediction = map(lambda e: lines[e], prediction)
-    for i in prediction:
-        print(i)
+f = open('models\\labels.txt', 'r')
+lines = f.readlines()
+prediction = map(lambda e: lines[e], prediction)
+for i in prediction:
+    print(i)
